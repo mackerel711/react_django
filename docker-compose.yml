@@ -1,0 +1,32 @@
+version: '3' 
+
+services:
+  backend:
+    container_name: django
+    build: .
+    tty: true
+    working_dir: /code
+    ports:
+      - 9003:9003
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+  
+  db:
+    container_name: database
+    image: mysql:5.7
+
+
+  frontend:
+    container_name: react
+    image: node:17-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: sh -c "npm install && npm start"
+    ports:
+      - '3000:3000'
+  
+
+    
